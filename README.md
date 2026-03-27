@@ -107,7 +107,7 @@ A C D
 
 ---
 
-# 🏁 Evaluation Criteria
+# Evaluation Criteria
 
 | Criteria         | Description                     |
 | ---------------- | ------------------------------- |
@@ -118,7 +118,7 @@ A C D
 
 ---
 
-# ⚠️ Important Rules
+# Important Rules
 
 * ❌ No internet usage after start
 * ❌ No external help
@@ -126,7 +126,7 @@ A C D
 
 ---
 
-# 🎯 Goal
+# Goal
 
 Fix all **15 bugs** and achieve correct outputs for all 3 programs.
 
