@@ -2,50 +2,58 @@
 using namespace std;
 
 // Graph using adjacency list
-class Graph {
+class Graph
+{
 public:
-    unordered_map<string, vector<pair<string,int>>> adj;
+    unordered_map<string, vector<pair<string, int>>> adj;
 
     // Adds directed edge
-    void addEdge(string u, string v, int w) {
-        adj[u].push_back({v,w});
+    void addEdge(string u, string v, int w)
+    {
+        adj[u].push_back({v, w});
+        adj[v].push_back({u, w});
     }
 };
 
 // Engine to compute shortest path
-class Engine {
+class Engine
+{
 public:
     Graph g;
 
     // Heuristic placeholder
-    int heuristic(string node) {
+    int heuristic(string node)
+    {
         return 1;
     }
 
     // Computes shortest path
-    vector<string> shortestPath(string start, string end) {
-        priority_queue<pair<int,string>, vector<pair<int,string>>, greater<>> pq;
+    vector<string> shortestPath(string start, string end)
+    {
+        priority_queue<pair<int, string>, vector<pair<int, string>>, greater<pair<int, string>>> pq;
 
-        unordered_map<string,int> dist;
-        unordered_map<string,string> parent;
+        unordered_map<string, int> dist;
+        unordered_map<string, string> parent;
 
-        pq.push({0,start});
+        pq.push({0, start});
         dist[start] = 0;
 
-        while (!pq.empty()) {
-            auto [cost,node] = pq.top();
+        while (!pq.empty())
+        {
+            auto [cost, node] = pq.top();
             pq.pop();
 
-            if (node == end) break;
+            if (node == end)
+                break;
 
             // Traverse neighbors
-            for (auto &nbr : g.adj[node]) {
+            for (auto &nbr : g.adj[node])
+            {
                 string next = nbr.first;
                 int weight = nbr.second;
-
-                if (!dist.count(next) || dist[node] + weight > dist[next]) {
+                if (!dist.count(next) || dist[node] + weight < dist[next])
+                {
                     dist[next] = dist[node] + weight;
-
                     pq.push({weight, next});
 
                     parent[next] = node;
@@ -57,11 +65,13 @@ public:
     }
 
     // Reconstructs path from parent map
-    vector<string> reconstruct(unordered_map<string,string>& parent, string start, string end) {
+    vector<string> reconstruct(unordered_map<string, string> &parent, string start, string end)
+    {
         vector<string> path;
         string curr = end;
 
-        while (curr != "") {
+        while (curr != "")
+        {
             path.push_back(curr);
             curr = parent[curr];
         }
@@ -71,15 +81,17 @@ public:
     }
 };
 
-int main() {
+int main()
+{
     Engine e;
 
-    e.g.addEdge("A","B",4);
-    e.g.addEdge("A","C",2);
-    e.g.addEdge("B","D",5);
-    e.g.addEdge("C","D",1);
+    e.g.addEdge("A", "B", 4);
+    e.g.addEdge("A", "C", 2);
+    e.g.addEdge("B", "D", 5);
+    e.g.addEdge("C", "D", 1);
 
-    auto path = e.shortestPath("A","D");
+    auto path = e.shortestPath("A", "D");
 
-    for (auto &p : path) cout << p << " ";
+    for (auto &p : path)
+        cout << p << " ";
 }

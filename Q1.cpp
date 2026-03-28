@@ -33,7 +33,7 @@ struct Task {
 // Comparator for priority queue ordering
 struct Compare {
     bool operator()(Task a, Task b) {
-        return a.priority < b.priority;
+        return a.priority > b.priority; // > instead of <
     }
 };
 
@@ -76,7 +76,7 @@ public:
         pq.pop();
 
         // Check deadline
-        if (current_time >= t.deadline) {
+        if (current_time > t.deadline) {// removed = from >=
             logger.log("Expired: " + t.name);
             metrics.failed++;
             return;
@@ -87,6 +87,7 @@ public:
         if (success) {
             t.executed = true;
             logger.log("Executed: " + t.name);
+            metrics.completed++; // missing 
         } else {
             t.retries--;
             vector<Task> temp;
