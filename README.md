@@ -133,3 +133,23 @@ Fix all **15 bugs** and achieve correct outputs for all 3 programs.
 ---
 
 🔥 **May the best debugger win!**
+
+Test case for Q1
+
+```
+if __name__ == "__main__":
+    scheduler = TaskScheduler()
+
+    scheduler.add_task(Task("T1", 3, 1))
+    scheduler.add_task(Task("T2", 1, 0))
+    scheduler.add_task(Task("T3", 2, 2))
+
+    t4 = Task("T4-Fail", 1, 10)
+    t4.retries = -1
+    scheduler.add_task(t4)
+
+    scheduler.add_task(Task("T5", 5, 10))
+
+    scheduler.run()
+    scheduler.summary()
+```
