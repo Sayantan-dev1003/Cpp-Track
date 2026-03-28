@@ -137,19 +137,34 @@ Fix all **15 bugs** and achieve correct outputs for all 3 programs.
 Test case for Q1
 
 ```
-if __name__ == "__main__":
-    scheduler = TaskScheduler()
+int main() {
+    Scheduler s;
 
-    scheduler.add_task(Task("T1", 3, 1))
-    scheduler.add_task(Task("T2", 1, 0))
-    scheduler.add_task(Task("T3", 2, 2))
+    s.addTask(Task("T1", 3, 1));
+    s.addTask(Task("T2", 1, 0));
+    s.addTask(Task("T3", 2, 2));
 
-    t4 = Task("T4-Fail", 1, 10)
-    t4.retries = -1
-    scheduler.add_task(t4)
+    Task t4("T4-Fail", 1, 10);
+    t4.retries = -1;
+    s.addTask(t4);
 
-    scheduler.add_task(Task("T5", 5, 10))
+    s.addTask(Task("T5", 5, 10));
 
-    scheduler.run()
-    scheduler.summary()
+    s.run();
+    s.summary();
+}
+```
+
+Expected Output:
+```
+Task added: T1
+Task added: T2
+Task added: T3
+Task added: T4-Fail
+Task added: T5
+Expired: T2
+Expired: T1
+Executed: T3
+Executed: T5
+Total: 5 Completed: 2 Failed: 2
 ```
