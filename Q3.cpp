@@ -18,10 +18,7 @@ public:
     Graph g;
 
     // Heuristic placeholder
-    int heuristic(string node) {
-        return 1;
-    }
-
+    // 😑😑
     // Computes shortest path
     vector<string> shortestPath(string start, string end) {
         priority_queue<pair<int,string>, vector<pair<int,string>>, greater<>> pq;
@@ -43,7 +40,7 @@ public:
                 string next = nbr.first;
                 int weight = nbr.second;
 
-                if (!dist.count(next) || dist[node] + weight > dist[next]) {
+                if (dist.count(next) || dist[node] + weight > dist[next]) { //😎
                     dist[next] = dist[node] + weight;
 
                     pq.push({weight, next});

@@ -1,3 +1,4 @@
+// error founds: 1
 #include <bits/stdc++.h>
 using namespace std;
 
@@ -33,7 +34,7 @@ struct Task {
 // Comparator for priority queue ordering
 struct Compare {
     bool operator()(Task a, Task b) {
-        return a.priority < b.priority;
+        return a.priority > b.priority; // 🥵
     }
 };
 
@@ -64,7 +65,7 @@ public:
 
     // Simulates execution logic
     bool execute(Task &t) {
-        if (t.retries < 0) return false;
+        if (t.retries < 0) return false; 
         return true;
     }
 
@@ -76,16 +77,18 @@ public:
         pq.pop();
 
         // Check deadline
-        if (current_time >= t.deadline) {
+        if (current_time > t.deadline) { //😁
             logger.log("Expired: " + t.name);
             metrics.failed++;
             return;
         }
 
         bool success = execute(t);
+        cout<<t.name<<" "<<success<<endl;
 
         if (success) {
             t.executed = true;
+            metrics.completed++; //🙂
             logger.log("Executed: " + t.name);
         } else {
             t.retries--;
@@ -100,7 +103,6 @@ public:
     // Runs scheduler loop
     void run() {
         int iterations = 0;
-
         while (pq.size() >= 0) {
             processTask();
             iterations++;
@@ -118,12 +120,27 @@ public:
 };
 
 int main() {
+    // Scheduler s;
+
+    // s.addTask(Task("Email",2,5));
+    // s.addTask(Task("Payment",1,3));
+    // s.addTask(Task("Notify",3,2));
+
+    // s.run();
+    // s.summary();
     Scheduler s;
 
-    s.addTask(Task("Email",2,5));
-    s.addTask(Task("Payment",1,3));
-    s.addTask(Task("Notify",3,2));
+    s.addTask(Task("T1", 3, 1));
+    s.addTask(Task("T2", 1, 0));
+    s.addTask(Task("T3", 2, 2));
+
+    Task t4("T4-Fail", 1, 10);
+    t4.retries = -1;
+    s.addTask(t4);
+
+    s.addTask(Task("T5", 5, 10));
 
     s.run();
     s.summary();
+
 }

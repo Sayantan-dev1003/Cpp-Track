@@ -38,8 +38,8 @@ public:
 
     // Removes node from DLL
     void remove(Node* node) {
-        node->prev->next = node->next;
         node->next->prev = node->prev;
+        node->prev->next = node->next;
     }
 
     // Adds node after head (most recent)
@@ -52,12 +52,14 @@ public:
 
     // Checks if entry expired
     bool expired(Node* node) {
-        return time(0) > node->ttl;
+        return time(0) > (node->ttl + node->timestamp); //🤩
     }
 
     // Retrieves value from cache
     string get(int key) {
-        if (!mp.count(key)) return "-1";
+        if (!mp.count(key)){
+            return "-1";
+        } 
 
         Node* node = mp[key];
 
@@ -84,7 +86,6 @@ public:
             add(node);
             return;
         }
-
         // Evict least recently used if needed
         if (mp.size() >= capacity) {
             Node* lru = head->next;
@@ -101,8 +102,10 @@ public:
     void display() {
         Node* curr = head->next;
         while (curr != tail) {
-            cout << curr->key << " ";
-            curr = curr->next;
+            if(!expired(curr)){
+                cout << curr->key << " ";
+                curr = curr->next;
+            }
         }
         cout << endl;
     }
@@ -114,7 +117,7 @@ int main() {
     cache.put(1,"A",5);
     cache.put(2,"B",5);
     cache.put(3,"C",5);
-
+    
     cout << cache.get(1) << endl;
 
     cache.put(4,"D",5);
